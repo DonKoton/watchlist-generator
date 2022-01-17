@@ -15,14 +15,14 @@ urls = [url_people, url_crew, url_roles, url_rating, url_movies]
 def download_and_unpack():
     for url in urls:
         filename_tsv = url.split("/")[-1][:-3]
-        filename_gz = filename_tsv + '.gz'
+        filename_gz = 'zipped' + filename_tsv + '.gz'
 
         with open(filename_gz, "wb") as f:
             r = requests.get(url)
             f.write(r.content)
 
         with gzip.open(filename_gz, 'rb') as f_in:
-            with open(filename_tsv, 'wb') as f_out:
+            with open('unpacked/' + filename_tsv, 'wb') as f_out:
                 shutil.copyfileobj(f_in, f_out)
 
 
@@ -31,7 +31,7 @@ download_and_unpack()
 
 def movies_db_refactor():
     # movies manipulation
-    df = pd.read_csv('watchlist/title.basics.tsv', sep='\t', index_col="tconst")
+    df = pd.read_csv('unpacked/title.basics.tsv', sep='\t', index_col="tconst")
     df = df.drop(['originalTitle', 'isAdult', 'endYear', 'runtimeMinutes'], axis=1)
     df = df.loc[df['titleType'] == 'movie']
     df = df.drop('titleType', axis=1)
@@ -44,7 +44,7 @@ def movies_db_refactor():
 
 def people_db_refactor():
     # people manipulation
-    df = pd.read_csv('watchlist/name.basics.tsv', sep='\t', index_col="nconst")
+    df = pd.read_csv('unpacked/name.basics.tsv', sep='\t', index_col="nconst")
     df = df.drop(['birthYear', 'deathYear'], axis=1)
     df = df.query('["actor", "actress", "director"] in primaryProfession')
     df = df.loc[df['knownForTitles'] != '\\N']
@@ -54,7 +54,7 @@ def people_db_refactor():
 
 def crew_db_refactor():
     # crew manipulation
-    df = pd.read_csv('watchlist/title.crew.tsv', sep='\t', index_col="tconst")
+    df = pd.read_csv('unpacked/title.crew.tsv', sep='\t', index_col="tconst")
     df = df.drop(['writers'], axis=1)
     df = df.loc[df['directors'] != '\\N']
     return df
@@ -62,7 +62,7 @@ def crew_db_refactor():
 
 def ratings_db_refactor():
     # ratings manipulation
-    df = pd.read_csv('watchlist/title.ratings.tsv', sep='\t', index_col="tconst")
+    df = pd.read_csv('unpacked/title.ratings.tsv', sep='\t', index_col="tconst")
     df['averageRating'] = df['averageRating'].astype(float)
     df['numVotes'] = df['numVotes'].astype(int)
     df = df.loc[df['numVotes'] > 1000]
@@ -71,7 +71,7 @@ def ratings_db_refactor():
 
 def roles_db_refactor():
     # roles manipulation
-    df = pd.read_csv('watchlist/title.principals.tsv', sep='\t', index_col="tconst")
+    df = pd.read_csv('unpacked/title.principals.tsv', sep='\t', index_col="tconst")
     df = df.drop(['job', 'characters', 'ordering'], axis=1)
     df = df.query('category == ["actor", "actress", "director"]')
     return df
