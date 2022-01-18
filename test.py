@@ -1,15 +1,19 @@
-import requests
-import json
+import sqlite3
+from random import sample
+from pprint import pprint
 
-url = "https://imdb-api.com/en/API/Title/k_7qzczhez/tt0120737"
+connection = sqlite3.connect("data.db")
+
+get_movies_stmt = "SELECT * FROM movies INNER JOIN ratings ON ratings.tconst = movies.tconst WHERE averageRating > 7.0 AND genres LIKE ? AND movies.startYear > 2000 AND ratings.numVotes > 20000"
 
 
-payload = {}
-headers = {}
+def genre(kword):
+    kword = '%' + kword + '%'
 
-response = requests.request("GET", url, headers=headers, data=payload)
+    with connection:
+        result = connection.execute(get_movies_stmt, (kword,))
+    return result.fetchall()
 
-with open('test.json', 'w') as file:
-    json.dump(response.json(), file, indent=4)
 
-print(response.text.encode('utf8'))
+list_of_movies = genre('war')
+pprint(sample(list_of_movies, k=7))
