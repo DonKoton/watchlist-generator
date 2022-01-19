@@ -40,11 +40,22 @@ def roles_db_create():
     df.to_sql('roles', con=connection)
 
 
+def create_choices():
+    get_distinct_genres = "SELECT DISTINCT genres FROM movies WHERE genres NOT LIKE '%,%'"
+
+    with connection:
+        result = connection.execute(get_distinct_genres)
+        CHOICES_GENRES = [(x[0].lower(), x[0]) for x in result.fetchall()]
+
+    return CHOICES_GENRES
+
+
 movies_db_create()
 people_db_create()
 crew_db_create()
 ratings_db_create()
 roles_db_create()
+
 
 
 
