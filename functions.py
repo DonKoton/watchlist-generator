@@ -15,7 +15,7 @@ urls = [url_people, url_crew, url_roles, url_rating, url_movies]
 def download_and_unpack():
     for url in urls:
         filename_tsv = url.split("/")[-1][:-3]
-        filename_gz = 'zipped' + filename_tsv + '.gz'
+        filename_gz = 'zipped/' + filename_tsv + '.gz'
 
         with open(filename_gz, "wb") as f:
             r = requests.get(url)
@@ -44,11 +44,13 @@ def movies_db_refactor():
 
 def people_db_refactor():
     # people manipulation
-    df = pd.read_csv('unpacked/name.basics.tsv', sep='\t', index_col="nconst")
-    df = df.drop(['birthYear', 'deathYear'], axis=1)
-    df = df.query('["actor", "actress", "director"] in primaryProfession')
-    df = df.loc[df['knownForTitles'] != '\\N']
+    df = pd.read_csv('unpacked/name.basics.tsv', sep='\t')
+    df = df.drop(['deathYear', 'knownForTitles'], axis=1)
+    df = df.loc[df['birthYear'] != '\\N']
+    df['birthYear'] = df['birthYear'].astype(int)
     df = df.dropna()
+    df = df.set_index('primaryProfession').filter(regex='.*actor.*|.*actress.*|.*[^_]director.*', axis=0)
+    df = df.reset_index().set_index('nconst')
     return df
 
 
