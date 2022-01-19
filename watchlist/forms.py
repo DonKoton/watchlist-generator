@@ -1,6 +1,5 @@
 from django import forms
-from django.forms.widgets import NumberInput
-from models import Movies
+from watchlist.models import Movies
 
 
 class MoviesForm(forms.ModelForm):
