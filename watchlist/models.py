@@ -11,7 +11,7 @@ class Movies(models.Model):
     ]
 
     rating = models.FloatField(min_value=1, max_value=10)
-    votes = models.IntegerField(max_length=10)
+    votes = models.IntegerField(min_value=1000, max_length=10)
     genre = models.CharField(choices=CHOICES_GENRES)
     prod_year = models.IntegerField(min_value=1850, min_length=4, max_length=4)
     role = models.CharField(choices=CHOICES_ROLES)
