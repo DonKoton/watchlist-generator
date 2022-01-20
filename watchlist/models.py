@@ -11,7 +11,7 @@ class Movies(models.Model):
         ("actress", "Actress"),
         ("director", "Director")
     ]
-    current_year = datetime.today().year
+    current_date = datetime.today().year
 
     rating = models.FloatField(validators=[MinValueValidator(1.0),
                                            MaxValueValidator(10.0)
@@ -25,7 +25,7 @@ class Movies(models.Model):
                              choices=CHOICES_GENRES
                              )
     prod_year = models.IntegerField(validators=[MinValueValidator(1960),
-                                                MaxValueValidator(current_year)
+                                                MaxValueValidator(current_date)
                                                 ]
                                     )
     role = models.CharField(max_length=16,
@@ -33,6 +33,6 @@ class Movies(models.Model):
                             )
     name = models.CharField(max_length=128)
     birth_year = models.IntegerField(validators=[MinValueValidator(1900),
-                                                 MaxValueValidator(current_year)
+                                                 MaxValueValidator(current_date)
                                                  ]
                                      )
