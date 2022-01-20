@@ -1,6 +1,5 @@
 import sqlite3
 from random import sample
-from pprint import pprint
 from watchlist.models import Movies
 
 
@@ -22,24 +21,23 @@ AND people.birthYear = ?"""
 
 
 def get_movies():
-    rating = Movies.objects.get().fetchone()
+    Movies.objects.all().delete()
+
+    rating = Movies.objects.all()[0]['averageRatzing'].fetchone()
     votes = Movies.objects.get().fetchone()
     genre = Movies.objects.get().fetchone()
     prod_year = Movies.objects.get().fetchone()
     role = Movies.objects.get().fetchone()
     name = Movies.objects.get().fetchone()
     birth_year = Movies.objects.get().fetchone()
+    number_of_movies_to_choose = Movies.objects.all()
 
     genre = '%' + genre + '%'
     role = '%' + role + '%'
 
     with connection:
         result = connection.execute(get_movies_stmt, (rating, votes, genre, prod_year, role, name, birth_year))
-    return result.fetchall()
+    result = result.fetchall()
+    result = sample(result, k=number_of_movies_to_choose)
 
-
-try:
-    pprint(sample(get_movies(), k=15))
-except ValueError:
-    print(f"Not enough movies matching selected filters! There are only {len(get_movies())} movies matching.")
-
+    return result

@@ -36,3 +36,7 @@ class Movies(models.Model):
                                                  MaxValueValidator(current_date)
                                                  ]
                                      )
+    number_of_movies_to_choose = models.IntegerField(validators=[MinValueValidator(1),
+                                                                 MaxValueValidator(30)
+                                                                 ]
+                                                     )
