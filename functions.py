@@ -77,6 +77,3 @@ def roles_db_refactor():
     df = df.drop(['job', 'characters', 'ordering'], axis=1)
     df = df.query('category == ["actor", "actress", "director"]')
     return df
-
-
-
