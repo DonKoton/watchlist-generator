@@ -26,9 +26,6 @@ def download_and_unpack():
                 shutil.copyfileobj(f_in, f_out)
 
 
-download_and_unpack()
-
-
 def movies_db_refactor():
     # movies manipulation
     df = pd.read_csv('unpacked/title.basics.tsv', sep='\t', index_col="tconst")
@@ -79,4 +76,4 @@ def roles_db_refactor():
     return df
 
 
-
+download_and_unpack()

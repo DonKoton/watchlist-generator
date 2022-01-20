@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
-from forms import MoviesForm
+from watchlist.forms import MoviesForm
 
 
 def index(request):

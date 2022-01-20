@@ -50,12 +50,17 @@ def create_choices():
     return CHOICES_GENRES
 
 
+def get_max_votes_num():
+    get_max_votes = "SELECT numVotes FROM ratings ORDER BY numVotes DESC LIMIT 1"
+
+    with connection:
+        result = connection.execute(get_max_votes).fetchone()
+
+    return result
+
+
 movies_db_create()
 people_db_create()
 crew_db_create()
 ratings_db_create()
 roles_db_create()
-
-
-
-
