@@ -1,10 +1,6 @@
-from django.core.exceptions import ValidationError
-from pathlib import Path
-
-from django.core.exceptions import ValidationError
 from django.utils.deconstruct import deconstructible
-from django.utils.functional import SimpleLazyObject
 from django.utils.translation import gettext_lazy as _, ngettext_lazy
+from django.core.validators import BaseValidator
 
 
 @deconstructible

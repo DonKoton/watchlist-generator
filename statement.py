@@ -1,6 +1,7 @@
 import sqlite3
 from random import sample
 from pprint import pprint
+from watchlist.models import Movies
 
 
 connection = sqlite3.connect("data.db")
@@ -12,7 +13,7 @@ INNER JOIN roles ON roles.tconst = movies.tconst
 INNER JOIN crew ON crew.tconst = movies.tconst
 INNER JOIN people ON people.nconst = roles.nconst
 WHERE averageRating >= ?
-AND ratings.numVotes > ?
+AND ratings.numVotes >= ?
 AND genres LIKE ?
 AND movies.startYear >= ?
 AND roles.category LIKE ?
@@ -20,7 +21,15 @@ AND people.primaryName = ?
 AND people.birthYear = ?"""
 
 
-def get_movies(rating: float, votes: int, genre: str, prod_year: int, role: str, name: str, birth_year):
+def get_movies():
+    rating = Movies.objects.get().fetchone()
+    votes = Movies.objects.get().fetchone()
+    genre = Movies.objects.get().fetchone()
+    prod_year = Movies.objects.get().fetchone()
+    role = Movies.objects.get().fetchone()
+    name = Movies.objects.get().fetchone()
+    birth_year = Movies.objects.get().fetchone()
+
     genre = '%' + genre + '%'
     role = '%' + role + '%'
 
@@ -29,9 +38,8 @@ def get_movies(rating: float, votes: int, genre: str, prod_year: int, role: str,
     return result.fetchall()
 
 
-list_of_movies = get_movies(6.0, 5000, '', 1970, 'actor', 'Dwayne Johnson', 1972)
 try:
-    pprint(sample(list_of_movies, k=15))
+    pprint(sample(get_movies(), k=15))
 except ValueError:
-    print(f"Not enough movies matching selected filters! There are only {len(list_of_movies)} movies matching.")
+    print(f"Not enough movies matching selected filters! There are only {len(get_movies())} movies matching.")
 

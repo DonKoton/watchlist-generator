@@ -9,7 +9,7 @@ def index(request):
         form = MoviesForm(request.POST)
         form.save()
 
-        return redirect('form_app_advanced:contact3')
+        return redirect('watchlist:index')
 
     form = MoviesForm()
 
