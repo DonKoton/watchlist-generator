@@ -1,6 +1,6 @@
 from django.db import models
 from database import create_choices
-
+from validators import MaxValueValidator, MinValueValidator, MinLengthValidator, MaxLengthValidator
 
 class Movies(models.Model):
     CHOICES_GENRES = create_choices()
