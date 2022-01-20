@@ -79,8 +79,4 @@ def roles_db_refactor():
     return df
 
 
-movies_db_refactor()
-people_db_refactor()
-crew_db_refactor()
-ratings_db_refactor()
-roles_db_refactor()
+
