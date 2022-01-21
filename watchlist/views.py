@@ -2,7 +2,6 @@ from django.shortcuts import render
 from django.shortcuts import redirect
 from watchlist.forms import MoviesForm
 from statement import get_movies
-from watchlist.models import Movies
 
 
 def index(request):
@@ -24,7 +23,7 @@ def index(request):
 
 
 def result(request):
-    list_of_movies = get_movies()
+    list_of_movies = [movie[0] + ' ----- ' + str(movie[1]) for movie in get_movies()]
 
     return render(
         request,

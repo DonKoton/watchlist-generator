@@ -1,6 +1,6 @@
 import sqlite3
 from functions import movies_db_refactor, people_db_refactor, crew_db_refactor, ratings_db_refactor, roles_db_refactor
-from datetime import datetime
+from functions import execute
 from skip_download import read_timestamp
 
 
@@ -62,6 +62,7 @@ def get_max_votes_num():
 
 
 def main():
+    execute()
     result = read_timestamp()
     if result > 86400:
         movies_db_create()

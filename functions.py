@@ -82,9 +82,6 @@ def roles_db_refactor():
     return df
 
 
-def main():
+def execute():
     record_timestamp()
     download_and_unpack()
-
-
-main()
