@@ -1,7 +1,10 @@
-from django.shortcuts import render
+from copy import copy
+
 from django.shortcuts import redirect
-from watchlist.forms import MoviesForm
+from django.shortcuts import render
+
 from statement import get_movies
+from watchlist.forms import MoviesForm
 
 
 def index(request):
@@ -23,7 +26,11 @@ def index(request):
 
 
 def result(request):
-    list_of_movies = [movie[0] + ' ----- ' + str(movie[1]) for movie in get_movies()]
+    list_of_movies = get_movies()
+
+    for idx, el in enumerate(copy(list_of_movies)):
+        list_of_movies[idx] = list(list_of_movies[idx])
+        list_of_movies[idx][2] = 'https://www.imdb.com/title/' + el[2] + '/'
 
     return render(
         request,

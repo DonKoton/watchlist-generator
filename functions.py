@@ -2,7 +2,7 @@ import requests
 import gzip
 import shutil
 import pandas as pd
-from skip_download import read_timestamp, record_timestamp
+from skip_download import read_timestamp
 
 
 url_people = "https://datasets.imdbws.com/name.basics.tsv.gz"
@@ -28,8 +28,6 @@ def download_and_unpack():
             with gzip.open(filename_gz, 'rb') as f_in:
                 with open('unpacked/' + filename_tsv, 'wb') as f_out:
                     shutil.copyfileobj(f_in, f_out)
-    else:
-        pass
 
 
 def movies_db_refactor():
@@ -82,6 +80,5 @@ def roles_db_refactor():
     return df
 
 
-def execute():
-    record_timestamp()
+if __name__ == '__main__':
     download_and_unpack()
