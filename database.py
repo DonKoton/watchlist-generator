@@ -1,6 +1,7 @@
-from functions import movies_db_refactor, people_db_refactor, crew_db_refactor, ratings_db_refactor, roles_db_refactor
 import sqlite3
-
+from functions import movies_db_refactor, people_db_refactor, crew_db_refactor, ratings_db_refactor, roles_db_refactor
+from functions import download_and_unpack
+from skip_download import read_timestamp, record_timestamp
 
 connection = sqlite3.connect("data.db")
 
@@ -54,13 +55,22 @@ def get_max_votes_num():
     get_max_votes = "SELECT numVotes FROM ratings ORDER BY numVotes DESC LIMIT 1"
 
     with connection:
-        result = connection.execute(get_max_votes).fetchone()
+        result = connection.execute(get_max_votes).fetchone()[0]
 
     return result
 
 
-movies_db_create()
-people_db_create()
-crew_db_create()
-ratings_db_create()
-roles_db_create()
+def main():
+    record_timestamp()
+    download_and_unpack()
+    result = read_timestamp()
+    if result > 86400:
+        movies_db_create()
+        people_db_create()
+        crew_db_create()
+        ratings_db_create()
+        roles_db_create()
+
+
+if __name__ == '__main__':
+    main()
