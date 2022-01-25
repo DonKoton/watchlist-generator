@@ -7,7 +7,7 @@ from watchlist.models import Movies
 connection = sqlite3.connect("data.db", check_same_thread=False)
 
 get_movies_stmt = """
-SELECT DISTINCT movies.primaryTitle, movies.startYear FROM movies
+SELECT DISTINCT movies.primaryTitle, movies.startYear, movies.tconst FROM movies
 INNER JOIN ratings ON ratings.tconst = movies.tconst
 INNER JOIN roles ON roles.tconst = movies.tconst
 INNER JOIN crew ON crew.tconst = movies.tconst

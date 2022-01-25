@@ -14,3 +14,6 @@ def record_timestamp():
         timestamp_now = datetime.now().timestamp()
         f.write(str(timestamp_now))
 
+
+if __name__ == '__main__':
+    record_timestamp()

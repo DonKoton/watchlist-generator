@@ -28,8 +28,6 @@ def download_and_unpack():
             with gzip.open(filename_gz, 'rb') as f_in:
                 with open('unpacked/' + filename_tsv, 'wb') as f_out:
                     shutil.copyfileobj(f_in, f_out)
-    else:
-        pass
 
 
 def movies_db_refactor():
@@ -82,14 +80,5 @@ def roles_db_refactor():
     return df
 
 
-def main():
-    download_and_unpack()
-    movies_db_refactor()
-    people_db_refactor()
-    crew_db_refactor()
-    ratings_db_refactor()
-    roles_db_refactor()
-
-
 if __name__ == '__main__':
-    main()
+    download_and_unpack()
