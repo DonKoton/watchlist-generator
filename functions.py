@@ -14,20 +14,27 @@ url_crew = "https://datasets.imdbws.com/title.crew.tsv.gz"
 urls = [url_people, url_crew, url_roles, url_rating, url_movies]
 
 
+def download():
+    for url in urls:
+        filename_tsv = url.split("/")[-1][:-3]
+        filename_gz = 'zipped/' + filename_tsv + '.gz'
+
+        with open(filename_gz, "wb") as f:
+            r = requests.get(url)
+            f.write(r.content)
+
+        with gzip.open(filename_gz, 'rb') as f_in:
+            with open('unpacked/' + filename_tsv, 'wb') as f_out:
+                shutil.copyfileobj(f_in, f_out)
+
+
 def download_and_unpack():
-    result = read_timestamp()
-    if result > 86400:
-        for url in urls:
-            filename_tsv = url.split("/")[-1][:-3]
-            filename_gz = 'zipped/' + filename_tsv + '.gz'
-
-            with open(filename_gz, "wb") as f:
-                r = requests.get(url)
-                f.write(r.content)
-
-            with gzip.open(filename_gz, 'rb') as f_in:
-                with open('unpacked/' + filename_tsv, 'wb') as f_out:
-                    shutil.copyfileobj(f_in, f_out)
+    try:
+        result = read_timestamp()
+        if result > 86400:
+            download()
+    except FileNotFoundError:
+        download()
 
 
 def movies_db_refactor():
