@@ -82,3 +82,8 @@ def roles_db_refactor():
 
 if __name__ == '__main__':
     download_and_unpack()
+    movies_db_refactor()
+    people_db_refactor()
+    crew_db_refactor()
+    ratings_db_refactor()
+    roles_db_refactor()
