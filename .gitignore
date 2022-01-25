@@ -140,3 +140,4 @@ GitHub.sublime-settings
 # custom
 *.tsv*
 *.db
+current_timestamp.txt
