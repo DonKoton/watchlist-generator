@@ -72,4 +72,5 @@ def main():
         roles_db_create()
         record_timestamp()
 
+
 main()
