@@ -1,0 +1,54 @@
+{% extends 'watchlist/layout.html' %}
+
+{% block title %}
+Watchlist generator
+{% endblock %}
+
+{% block section %}
+
+<div class="text-box">
+    <h1>Form section</h1>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio dolorem eligendi incidunt provident similique veritatis voluptate! Autem beatae blanditiis dolor esse in mollitia officiis perferendis quos, ratione, repudiandae sapiente, vel!</p>
+    <h4>Which filtering option would you like to choose?</h4>
+
+    {% for i in radio_form %}
+        {{ i }}
+    {% endfor %}
+
+    <a onclick="showForm()" class="hero-btn">Click here to begin</a>
+</div>
+
+{% endblock %}
+
+{% block body %}
+
+    <form id="movies_form" action="{% url 'watchlist:result' %}" style="display: none;" method="POST">
+        {% csrf_token %}
+        {{ movies_form.as_p }}
+        <input type="submit" value="Submit">
+    </form>
+
+    <form id="people_form" action="{% url 'watchlist:result' %}" style="display: none;" method="POST">
+        {% csrf_token %}
+        {{ people_form.as_p }}
+        <input type="submit" value="Submit">
+    </form>
+
+<script>
+    function showForm(){
+        var radioValue = document.querySelector('input[name="radio_select"]:checked').value;
+        if (radioValue === 'movies')
+        {
+            document.getElementById('movies_form').style.display = 'block';
+            document.getElementById('people_form').style.display = 'none';
+        }
+        else if (radioValue === 'people')
+        {
+            document.getElementById('people_form').style.display = 'block';
+            document.getElementById('movies_form').style.display = 'none';
+        }
+    }
+</script>
+
+{% endblock %}
+

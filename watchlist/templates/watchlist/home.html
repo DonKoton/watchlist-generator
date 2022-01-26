@@ -1,0 +1,14 @@
+{% extends 'watchlist/layout.html' %}
+
+{% block title %}
+Watchlist generator
+{% endblock %}
+
+{% block section %}
+<div class="text-box">
+    <h1>Welcome to watchlist generator!</h1>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio dolorem eligendi incidunt provident similique veritatis voluptate! Autem beatae blanditiis dolor esse in mollitia officiis perferendis quos, ratione, repudiandae sapiente, vel!</p>
+    <h4>Do you want to generate some movies?</h4>
+    <a href="{% url 'watchlist:forms' %}" class="hero-btn">Click here to begin</a>
+</div>
+{% endblock %}

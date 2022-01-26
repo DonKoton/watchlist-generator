@@ -5,6 +5,7 @@ from watchlist import views
 app_name = "watchlist"
 
 urlpatterns = [
-    path('', views.index, name="index"),
-    path('generated_list/', views.result, name='result'),
+    path('home/', views.home, name="home"),
+    path('forms/', views.forms, name='forms'),
+    path('generated_list/', views.result, name='result')
 ]

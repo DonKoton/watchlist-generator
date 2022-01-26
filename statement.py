@@ -1,7 +1,7 @@
 import sqlite3
 from random import sample
 from copy import copy
-from watchlist.models import Movies
+from watchlist.models import Movies, People
 
 
 connection = sqlite3.connect("data.db", check_same_thread=False)
@@ -21,7 +21,11 @@ def get_movies():
     global gms_copy
 
     rating = Movies.objects.last().rating
-    parameters = [str(rating)]
+    if rating:
+        parameters = [str(rating)]
+    else:
+        rating = People.objects.last().rating
+        parameters = [str(rating)]
 
     votes = Movies.objects.last().votes
     if votes:
@@ -39,18 +43,18 @@ def get_movies():
         gms_copy += ' AND movies.startYear >= ?'
         parameters.append(str(prod_year))
 
-    role = Movies.objects.last().role
+    role = People.objects.last().role
     if role:
         gms_copy += ' AND roles.category LIKE ?'
         role = '%' + role + '%'
         parameters.append(role)
 
-    name = Movies.objects.last().name
+    name = People.objects.last().name
     if name:
         gms_copy += ' AND people.primaryName = ?'
         parameters.append(name)
 
-    birth_year = Movies.objects.last().birth_year
+    birth_year = People.objects.last().birth_year
     if birth_year:
         gms_copy += ' AND people.birthYear = ?'
         parameters.append(birth_year)

@@ -6,23 +6,42 @@ from django.shortcuts import redirect
 from django.shortcuts import render
 
 from statement import get_movies
-from watchlist.forms import MoviesForm
+from watchlist.forms import MoviesForm, PeopleForm, RadioSelect
 
 
-def index(request):
+def home(request):
+    return render(
+        request,
+        'watchlist/home.html'
+    )
+
+
+def forms(request):
+    radio_form = RadioSelect()
+
     if request.method == "POST":
-        form = MoviesForm(request.POST)
-        form.save()
+        movies_form = MoviesForm(request.POST)
+        people_form = PeopleForm(request.POST)
+        if movies_form.is_valid():
+            movies_form.save()
 
-        return redirect('watchlist:result')
+            return redirect('watchlist:result')
 
-    form = MoviesForm()
+        if people_form.is_valid():
+            people_form.save()
+
+            return redirect('watchlist:result')
+
+    people_form = PeopleForm()
+    movies_form = MoviesForm()
 
     return render(
         request,
-        'watchlist/index.html',
+        'watchlist/forms2.html',
         context={
-            "form": form
+            "movies_form": movies_form,
+            "radio_form": radio_form,
+            "people_form": people_form
         }
     )
 
