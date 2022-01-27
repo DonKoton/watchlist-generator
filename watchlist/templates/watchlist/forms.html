@@ -5,30 +5,35 @@ Watchlist generator
 {% endblock %}
 
 {% block section %}
-
 <div class="text-box">
-    <h1>Form section</h1>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio dolorem eligendi incidunt provident similique veritatis voluptate! Autem beatae blanditiis dolor esse in mollitia officiis perferendis quos, ratione, repudiandae sapiente, vel!</p>
+    <h1>Filter zone</h1>
+
+    <p>In this section, you can choose whether you want to filter the videos by cinematic or personal features.
+        You can choose only one option. After clicking the button, you will see the appropriate form
+        that must be completed.</p>
+    <p>Fields with a note (min) mean that you enter the minimum value from which the films will be filtered
+        for the selected parameter. Rating and number of videos are fields that you need to fill in,
+        the rest are optional. However, take into account that when filtering people, be sure to enter their
+        year of birth (there are duplicates of people with the same names and surnames in the database).</p>
+
     <h4>Which filtering option would you like to choose?</h4>
 
     {% for i in radio_form %}
         {{ i }}
     {% endfor %}
 
-    <a onclick="showForm()" class="hero-btn">Click here to begin</a>
+    <a onclick="showForm()" class="hero-btn">This is my choice!</a>
 </div>
-
 {% endblock %}
 
 {% block body %}
-
-    <form id="movies_form" action="{% url 'watchlist:result' %}" style="display: none;" method="POST">
+    <form id="movies_form" style="display: none;" method="POST">
         {% csrf_token %}
         {{ movies_form.as_p }}
         <input type="submit" value="Submit">
     </form>
 
-    <form id="people_form" action="{% url 'watchlist:result' %}" style="display: none;" method="POST">
+    <form id="people_form" style="display: none;" method="POST">
         {% csrf_token %}
         {{ people_form.as_p }}
         <input type="submit" value="Submit">
@@ -49,6 +54,4 @@ Watchlist generator
         }
     }
 </script>
-
 {% endblock %}
-

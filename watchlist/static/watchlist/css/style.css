@@ -69,9 +69,10 @@ nav{
 }
 
 .text-box h1{
-    font-size: 46px;
+    font-size: 42px;
 }
 .text-box p{
+    font-size: 14px;
     margin: 10px 50px 10px;
 }
 
@@ -100,9 +101,30 @@ form {
     color: black;
     position: absolute;
     margin-top: 50px;
-    bottom: 20%;
+    bottom: 17%;
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
 }
 
+.flowTable{
+    height: 400px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: block;
+    table-layout: fixed;
+    margin-bottom: 10%;
+    font-size: 20px;
+}
+
+.flowTable, tr, td{
+    width:60%;
+    margin-left:20%;
+    margin-right:20%;
+    text-align: center;
+    vertical-align: middle;
+}
+
+td{
+    width: 15%;
+}

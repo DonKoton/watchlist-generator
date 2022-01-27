@@ -21,23 +21,21 @@ def forms(request):
 
     if request.method == "POST":
         movies_form = MoviesForm(request.POST)
-        people_form = PeopleForm(request.POST)
+        people_form = PeopleForm(request.POST or None)
         if movies_form.is_valid():
             movies_form.save()
-
-            return redirect('watchlist:result')
 
         if people_form.is_valid():
             people_form.save()
 
-            return redirect('watchlist:result')
+        return redirect('watchlist:result')
 
     people_form = PeopleForm()
     movies_form = MoviesForm()
 
     return render(
         request,
-        'watchlist/forms2.html',
+        'watchlist/forms.html',
         context={
             "movies_form": movies_form,
             "radio_form": radio_form,

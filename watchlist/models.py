@@ -25,14 +25,12 @@ class Movies(models.Model):
                                 )
     genre = models.CharField(max_length=32,
                              choices=CHOICES_GENRES,
-                             default='',
                              blank=True,
                              null=True
                              )
     prod_year = models.IntegerField(validators=[MinValueValidator(1960),
                                                 MaxValueValidator(cur_date())
                                                 ],
-                                    default='',
                                     blank=True,
                                     null=True
                                     )
@@ -57,16 +55,20 @@ class People(models.Model):
                                default='',
                                null=True
                                )
+    votes = models.IntegerField(validators=[MinValueValidator(1000),
+                                            MaxValueValidator(get_max_votes_num())
+                                            ],
+                                blank=True,
+                                null=True
+                                )
     role = models.CharField(max_length=16,
                             choices=CHOICES_ROLES,
-                            default='',
                             null=True
                             )
     name = models.CharField(max_length=128, default='', blank=True, null=True)
     birth_year = models.IntegerField(validators=[MinValueValidator(1900),
                                                  MaxValueValidator(cur_date())
                                                  ],
-                                     default='',
                                      null=True
                                      )
     number_of_movies_to_choose = models.IntegerField(validators=[MinValueValidator(1),

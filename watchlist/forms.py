@@ -28,12 +28,14 @@ class PeopleForm(forms.ModelForm):
         fields = "__all__"
         labels = {
             "rating": "Average rating (min)",
+            "votes": "Number of votes (min)",
             "role": "Role in the movie",
             "name": "Name of person",
             "birth_year": "Year of birth"
         }
         widgets = {
             "rating": forms.TextInput(attrs={"placeholder": "1 - 10"}),
+            "votes": forms.TextInput(attrs={"placeholder": f"1000 - {get_max_votes_num()}"}),
             "name": forms.TextInput(attrs={"placeholder": "John Doe/Bruce Lee"}),
             "birth_year": forms.TextInput(attrs={"placeholder": f"1900 - {cur_date()-1}"})
         }
