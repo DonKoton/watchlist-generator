@@ -11,13 +11,13 @@ class Movies(models.Model):
     CHOICES_GENRES = create_choices()
     CHOICES_GENRES.insert(0, ('', ''))
 
-    rating = models.FloatField(validators=[MinValueValidator(1.0),
+    movie_rating = models.FloatField(validators=[MinValueValidator(1.0),
                                            MaxValueValidator(10.0)
                                            ],
                                default='',
                                null=True
                                )
-    votes = models.IntegerField(validators=[MinValueValidator(1000),
+    movie_votes = models.IntegerField(validators=[MinValueValidator(1000),
                                             MaxValueValidator(get_max_votes_num())
                                             ],
                                 blank=True,
@@ -49,13 +49,13 @@ class People(models.Model):
     CHOICES_ROLES.insert(0, ('', ''))
     current_date = datetime.today().year
 
-    rating = models.FloatField(validators=[MinValueValidator(1.0),
+    people_rating = models.FloatField(validators=[MinValueValidator(1.0),
                                            MaxValueValidator(10.0)
                                            ],
                                default='',
                                null=True
                                )
-    votes = models.IntegerField(validators=[MinValueValidator(1000),
+    people_votes = models.IntegerField(validators=[MinValueValidator(1000),
                                             MaxValueValidator(get_max_votes_num())
                                             ],
                                 blank=True,
