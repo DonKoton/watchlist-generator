@@ -1,0 +1,130 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+h4{
+     margin-bottom: 15px;
+}
+
+#bg{
+    min-height: 100vh;
+    width: 100%;
+    background-image: linear-gradient(rgba(4,9,30,0.7), rgba(4,9,30,0.7));
+    background-position: center;
+    background-size: cover;
+    position: relative;
+}
+
+nav{
+    display: flex;
+    padding: 2% 2%;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.nav-links{
+    flex: 1;
+    text-align: right;
+}
+
+.nav-links ul li{
+    list-style: none;
+    display: inline-block;
+    padding: 8px 12px;
+    position: relative;
+}
+
+.nav-links ul li a{
+    color: cyan;
+    text-decoration: none;
+    font-size: 15px;
+}
+
+.nav-links ul li::after{
+    content: '';
+    width: 0;
+    height: 2px;
+    background: #adba21;
+    display: block;
+    margin: auto;
+    transition: 0.3s;
+}
+
+.nav-links ul li:hover::after{
+    width: 100%;
+}
+
+.text-box{
+    width: 70%;
+    color: black;
+    position: absolute;
+    margin-top: 50px;
+    top: 15%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.text-box h1{
+    font-size: 42px;
+}
+.text-box p{
+    font-size: 14px;
+    margin: 10px 50px 10px;
+}
+
+.hero-btn{
+    display: inline-block;
+    text-decoration: none;
+    color: darkblue;
+    border: 1px solid darkblue;
+    border-radius: 12px;
+    padding: 15px 35px;
+    margin-top: 10px;
+    font-size: 13px;
+    background: transparent;
+    position: relative;
+    cursor: pointer;
+}
+
+.hero-btn:hover{
+    border: 1px solid blue;
+    background: #778899;
+    transition: 0.8s;
+}
+
+form {
+    width: 70%;
+    color: black;
+    position: absolute;
+    margin-top: 50px;
+    bottom: 17%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.flowTable{
+    height: 400px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: block;
+    table-layout: fixed;
+    margin-bottom: 10%;
+    font-size: 20px;
+}
+
+.flowTable, tr, td{
+    width:60%;
+    margin-left:20%;
+    margin-right:20%;
+    text-align: center;
+    vertical-align: middle;
+}
+
+td{
+    width: 15%;
+}

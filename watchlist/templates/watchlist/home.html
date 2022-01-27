@@ -1,0 +1,19 @@
+{% extends 'watchlist/layout.html' %}
+
+{% block title %}
+Watchlist generator
+{% endblock %}
+
+{% block section %}
+<div class="text-box">
+    <h1 style="margin-top: 20%">Welcome to the watchlist generator!</h1>
+
+    <p>This generator was created using databases provided by IMDb.
+        Based on the filters selected in the appropriate form on the next page,
+        a list of films of a given length is generated. You can draw films depending on the average rating,
+        genre and year of production or the average rating and your favorite director/actor.</p>
+
+    <h4>Would you like to generate some movies?</h4>
+    <a href="{% url 'watchlist:forms' %}" class="hero-btn">Click here to begin</a>
+</div>
+{% endblock %}

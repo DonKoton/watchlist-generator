@@ -1,9 +1,11 @@
-import requests
 import gzip
 import shutil
-import pandas as pd
-from skip_download import read_timestamp
+from datetime import datetime
 
+import pandas as pd
+import requests
+
+from skip_download import read_timestamp, record_timestamp
 
 url_people = "https://datasets.imdbws.com/name.basics.tsv.gz"
 url_movies = "https://datasets.imdbws.com/title.basics.tsv.gz"
@@ -14,7 +16,7 @@ url_crew = "https://datasets.imdbws.com/title.crew.tsv.gz"
 urls = [url_people, url_crew, url_roles, url_rating, url_movies]
 
 
-def download():
+def download_and_unpack():
     for url in urls:
         filename_tsv = url.split("/")[-1][:-3]
         filename_gz = 'zipped/' + filename_tsv + '.gz'
@@ -26,15 +28,16 @@ def download():
         with gzip.open(filename_gz, 'rb') as f_in:
             with open('unpacked/' + filename_tsv, 'wb') as f_out:
                 shutil.copyfileobj(f_in, f_out)
+        record_timestamp()
 
 
-def download_and_unpack():
+def download_and_unpack_extended():
     try:
         result = read_timestamp()
         if result > 86400:
-            download()
+            download_and_unpack()
     except FileNotFoundError:
-        download()
+        download_and_unpack()
 
 
 def movies_db_refactor():
@@ -46,7 +49,7 @@ def movies_db_refactor():
     df = df.loc[df['genres'] != '\\N']
     df = df.loc[df['startYear'] != '\\N']
     df['startYear'] = df['startYear'].astype(int)
-    df = df.loc[df['startYear'] > 1960]
+    df = df.loc[df['startYear'] >= 1960]
     return df
 
 
@@ -75,7 +78,7 @@ def ratings_db_refactor():
     df = pd.read_csv('unpacked/title.ratings.tsv', sep='\t', index_col="tconst")
     df['averageRating'] = df['averageRating'].astype(float)
     df['numVotes'] = df['numVotes'].astype(int)
-    df = df.loc[df['numVotes'] > 1000]
+    df = df.loc[df['numVotes'] >= 1000]
     return df
 
 
@@ -87,10 +90,15 @@ def roles_db_refactor():
     return df
 
 
+def cur_date():
+    return datetime.today().year
+
+
 if __name__ == '__main__':
-    download_and_unpack()
+    download_and_unpack_extended()
     movies_db_refactor()
     people_db_refactor()
     crew_db_refactor()
     ratings_db_refactor()
     roles_db_refactor()
+    cur_date()

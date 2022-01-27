@@ -1,7 +1,7 @@
 import sqlite3
 from functions import movies_db_refactor, people_db_refactor, crew_db_refactor, ratings_db_refactor, roles_db_refactor
-from functions import download_and_unpack
-from skip_download import read_timestamp, record_timestamp
+from functions import download_and_unpack_extended
+from skip_download import read_timestamp
 
 
 connection = sqlite3.connect("data.db")
@@ -62,7 +62,7 @@ def get_max_votes_num():
 
 
 def main():
-    download_and_unpack()
+    download_and_unpack_extended()
     result = read_timestamp()
     if result > 86400:
         movies_db_create()
@@ -70,7 +70,6 @@ def main():
         crew_db_create()
         ratings_db_create()
         roles_db_create()
-        record_timestamp()
 
 
 main()
