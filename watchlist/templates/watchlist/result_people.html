@@ -1,10 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends 'watchlist/layout.html' %}
+
+{% block title %}Generated watchlist{% endblock %}
+
+{% block section %}
+<div class="text-box">
+    <h1>Your list</h1>
+</div>
+{% endblock %}
+
+{% block body %}
+<div>
+    <table class="flowTable">
+        {% for title, prod_year, movie_url, image_src in list_of_people %}
+            <tr>
+                <td> <a href="{{ movie_url }}"><img src="{{ image_src }}" alt="poster"></a></td>
+                <td> {{ title }} </td>
+                <td> {{ prod_year }} </td>
+                <td> <a href="{{ movie_url }}"> Link to the movie </a></td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}
