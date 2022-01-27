@@ -14,10 +14,28 @@ INNER JOIN crew ON crew.tconst = movies.tconst
 INNER JOIN people ON people.nconst = roles.nconst
 WHERE averageRating >= ?"""
 
-truncate_table_movies = "DELETE FROM watchlist_movies;"
-truncate_table_people = "DELETE FROM watchlist_people;"
+get_people_stmt = """
+SELECT DISTINCT movies.primaryTitle, movies.startYear, movies.tconst FROM movies
+INNER JOIN ratings ON ratings.tconst = movies.tconst
+INNER JOIN roles ON roles.tconst = movies.tconst
+INNER JOIN crew ON crew.tconst = movies.tconst
+INNER JOIN people ON people.nconst = roles.nconst
+WHERE averageRating >= ?"""
+
+truncate_movies = "DELETE FROM watchlist_movies;"
+truncate_people = "DELETE FROM watchlist_people;"
+
+
+def drop_tables():
+    connection2 = sqlite3.connect("db.sqlite3")
+
+    with connection2:
+        connection2.execute(truncate_movies)
+        connection2.execute(truncate_people)
+
 
 gms_copy = copy(get_movies_stmt)
+gps_copy = copy(get_people_stmt)
 
 
 def get_movies():
@@ -25,29 +43,17 @@ def get_movies():
 
     parameters = []
 
-    try:
-        rating = Movies.objects.last().rating
-        if rating:
-            parameters.append(str(rating))
-        else:
-            rating = People.objects.last().rating
-            parameters.append(str(rating))
-    except AttributeError:
-        pass
+    rating = Movies.objects.last().movie_rating
+    if rating:
+        parameters.append(str(rating))
 
     try:
-        votes = Movies.objects.last().votes
+        votes = Movies.objects.last().movie_votes
         if votes:
             gms_copy += ' AND ratings.numVotes >= ?'
             parameters.append(str(votes))
     except AttributeError:
-        try:
-            votes = People.objects.last().votes
-            if votes:
-                gms_copy += ' AND ratings.numVotes >= ?'
-                parameters.append(str(votes))
-        except AttributeError:
-            pass
+        pass
 
     try:
         genre = Movies.objects.last().genre
@@ -66,35 +72,7 @@ def get_movies():
     except AttributeError:
         pass
 
-    try:
-        role = People.objects.last().role
-        if role:
-            gms_copy += ' AND roles.category LIKE ?'
-            role = '%' + role + '%'
-            parameters.append(role)
-    except AttributeError:
-        pass
-
-    try:
-        name = People.objects.last().name
-        if name:
-            gms_copy += ' AND people.primaryName = ?'
-            parameters.append(name)
-    except AttributeError:
-        pass
-
-    try:
-        birth_year = People.objects.last().birth_year
-        if birth_year:
-            gms_copy += ' AND people.birthYear = ?'
-            parameters.append(birth_year)
-    except AttributeError:
-        pass
-
-    try:
-        number_of_movies_to_choose = Movies.objects.last().number_of_movies_to_choose
-    except AttributeError:
-        number_of_movies_to_choose = People.objects.last().number_of_movies_to_choose
+    number_of_movies_to_choose = Movies.objects.last().number_of_movies_to_choose
 
     with connection:
         result = connection.execute(gms_copy, parameters)
@@ -104,10 +82,65 @@ def get_movies():
     parameters.clear()
     gms_copy = get_movies_stmt
 
-    connection2 = sqlite3.connect('db.sqlite3')
+    return result
 
-    with connection2:
-        connection2.execute(truncate_table_movies)
-        connection2.execute(truncate_table_people)
+
+def get_people():
+    global gps_copy
+
+    parameters = []
+
+    rating = People.objects.last().people_rating
+    if rating:
+        parameters.append(str(rating))
+
+    try:
+        votes = People.objects.last().people_votes
+        if votes:
+            gps_copy += ' AND ratings.numVotes >= ?'
+            parameters.append(str(votes))
+    except AttributeError:
+        pass
+
+    try:
+        role = People.objects.last().role
+        if role:
+            gps_copy += ' AND roles.category LIKE ?'
+            role = '%' + role + '%'
+            parameters.append(role)
+    except AttributeError:
+        pass
+
+    try:
+        name = People.objects.last().name
+        if name:
+            gps_copy += ' AND people.primaryName = ?'
+            parameters.append(name)
+    except AttributeError:
+        pass
+
+    try:
+        birth_year = People.objects.last().birth_year
+        if birth_year:
+            gps_copy += ' AND people.birthYear = ?'
+            parameters.append(birth_year)
+    except AttributeError:
+        pass
+
+    number_of_movies_to_choose = People.objects.last().number_of_movies_to_choose
+
+    with connection:
+        result = connection.execute(gps_copy, parameters)
+        result = result.fetchall()
+        result = sample(result, k=number_of_movies_to_choose)
+
+    parameters.clear()
+    gps_copy = get_people_stmt
 
     return result
+
+
+if __name__ == '__main__':
+    get_movies()
+    get_people()
+    drop_tables()
