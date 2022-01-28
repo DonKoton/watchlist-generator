@@ -12,3 +12,7 @@ of films provided in the form is randomly selected.
 Here is a short video showing how it works. As for now the app has not
 been deployed, yet. However, it will probably be done soon.
 
+
+
+https://user-images.githubusercontent.com/86474145/151541280-ccfa0e07-218c-4d6a-a975-a8552862700d.mp4
+
